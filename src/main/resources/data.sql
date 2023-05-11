@@ -1,33 +1,29 @@
-INSERT INTO `person` (
+INSERT INTO `user` (
     `id`,
-    `address`,
+    `birthdate`,
     `dni_number`,
-    `id_dni_type`,
-    `id_person_type`,
     `mail`,
     `name`,
     `password`,
     `phone`,
     `surname`,
-    `token_password`
+    `id_role`
   )
 VALUES
   (
     '1',
-    'st 123 # 456',
+    '2000-04-28',
     '123',
-    '1',
-    '1',
-    'email@some.com',
-    'Name',
+    'heinner@gmail.com',
+    'Heinner',
     '$2a$10$GlsGSNhkbVon6ZOSNMptOu5RikedRzlCAhMa7YpwvUSS0c88WT99S',
-    '1234567890',
-    'Surname',
-    NULL
+    '+57 3134647980',
+    'Vega',
+    '1'
   );
 
 
 INSERT INTO `role` (`id`, `description`, `name`) VALUES ('1', 'ROLE_ADMIN', 'ROLE_ADMIN');
-INSERT INTO `role` (`id`, `description`, `name`) VALUES ('2', 'ROLE_USER', 'ROLE_USER');
-
-INSERT INTO `user` (`id_person`, `id_role`) VALUES ('1', '1');
+INSERT INTO `role` (`id`, `description`, `name`) VALUES ('2', 'ROLE_OWNER', 'ROLE_OWNER');
+INSERT INTO `role` (`id`, `description`, `name`) VALUES ('3', 'ROLE_EMPLOYEE', 'ROLE_EMPLOYEE');
+INSERT INTO `role` (`id`, `description`, `name`) VALUES ('4', 'ROLE_CLIENT', 'ROLE_CLIENT');
