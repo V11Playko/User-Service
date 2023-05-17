@@ -1,11 +1,14 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
+import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.DataRequired;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IUserHandler;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserRequestMapper;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserResponseMapper;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.UserNotFound;
+import com.pragma.powerup.usermicroservice.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,17 @@ public class UserHandlerImpl implements IUserHandler {
     @Override
     public void deleteUser(UserRequestDto userRequestDto) {
         userServicePort.deleteUser(userRequestMapper.toUser(userRequestDto));
+    }
+
+    @Override
+    public UserResponseDto getUserByMail(String mail) {
+        User user;
+        try {
+            user = userServicePort.getUserByMail(mail);
+        } catch (UserNotFound e) {
+            throw new DataRequired();
+        }
+        return userResponseMapper.toResponse(user);
     }
 
     @Override

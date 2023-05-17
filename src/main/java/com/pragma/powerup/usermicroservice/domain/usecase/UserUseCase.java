@@ -2,11 +2,13 @@ package com.pragma.powerup.usermicroservice.domain.usecase;
 
 import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.UserNotFound;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.validations.UserValid;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserUseCase implements IUserServicePort {
     private final IUserPersistencePort userPersistencePort;
@@ -27,6 +29,15 @@ public class UserUseCase implements IUserServicePort {
     @Override
     public void deleteUser(User user) {
         userPersistencePort.deleteUser(user);
+    }
+
+    @Override
+    public User getUserByMail(String mail) {
+        User user = userPersistencePort.getUserByMail(mail).orElse(null);
+        if (user == null) {
+            throw new UserNotFound();
+        }
+        return user;
     }
 
     @Override

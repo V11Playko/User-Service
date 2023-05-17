@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.pragma.powerup.usermicroservice.configuration.Constants.CLIENT_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.EMPLOYEE_ROLE_ID;
@@ -55,6 +56,12 @@ public class UserMysqlAdapter implements IUserPersistencePort {
         else {
             throw new UserNotFoundException();
         }
+    }
+
+    @Override
+    public Optional<User> getUserByMail(String mail) {
+        UserEntity user = userRepository.findByMail(mail).orElse(null);
+        return Optional.ofNullable(userEntityMapper.toUser(user));
     }
 
     @Override

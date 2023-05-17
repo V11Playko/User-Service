@@ -35,6 +35,7 @@ public class Constants {
     public static final String SWAGGER_LICENSE_NAME_MESSAGE = "Apache 2.0";
     public static final String SWAGGER_LICENSE_URL_MESSAGE = "http://springdoc.org";
     public static final String SWAGGER_TERMS_OF_SERVICE_MESSAGE = "http://swagger.io/terms/";
+    public static final String USER_NOT_FOUND = "User not found.";
     public static final String DATA_REQUIRED = "All data are required.";
     public static final String IS_OLDER = "You have to be of legal age";
 }
