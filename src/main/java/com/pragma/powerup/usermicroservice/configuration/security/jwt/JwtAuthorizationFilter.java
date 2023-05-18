@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class JwtTokenFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     JwtProvider jwtProvider;
 

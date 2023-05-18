@@ -1,6 +1,7 @@
 package com.pragma.powerup.usermicroservice.configuration;
 
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.DataRequired;
+import com.pragma.powerup.usermicroservice.configuration.security.exception.JwtException;
 import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.MailAlreadyExistsException;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.exceptions.NoDataFoundException;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.pragma.powerup.usermicroservice.configuration.Constants.DATA_REQUIRED;
+import static com.pragma.powerup.usermicroservice.configuration.Constants.ERROR_TOKEN;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.IS_OLDER;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.MAIL_ALREADY_EXISTS_MESSAGE;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.NO_DATA_FOUND_MESSAGE;
@@ -113,5 +115,12 @@ public class ControllerAdvisor {
             UserNotFound userNotFound) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, USER_NOT_FOUND));
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Map<String, String>> errorToken(
+            JwtException jwtException) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, ERROR_TOKEN));
     }
 }

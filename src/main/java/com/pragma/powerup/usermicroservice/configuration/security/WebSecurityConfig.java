@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class MainSecurity {
+public class WebSecurityConfig {
 
     @Autowired
     JwtEntryPoint jwtEntryPoint;

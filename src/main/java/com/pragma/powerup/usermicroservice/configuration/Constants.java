@@ -38,4 +38,5 @@ public class Constants {
     public static final String USER_NOT_FOUND = "User not found.";
     public static final String DATA_REQUIRED = "All data are required.";
     public static final String IS_OLDER = "You have to be of legal age";
+    public static final String ERROR_TOKEN = "A problem with the token has occurred";
 }
