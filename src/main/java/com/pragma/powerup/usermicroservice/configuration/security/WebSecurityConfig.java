@@ -1,6 +1,7 @@
 package com.pragma.powerup.usermicroservice.configuration.security;
 
-import com.pragma.powerup.usermicroservice.configuration.security.jwt.JwtEntryPoint;
+
+import com.pragma.powerup.usermicroservice.configuration.security.jwt.AuthEntryPointJwt;
 import com.pragma.powerup.usermicroservice.configuration.security.jwt.JwtAuthorizationFilter;
 import com.pragma.powerup.usermicroservice.configuration.security.jwt.JwtUtils;
 import com.pragma.powerup.usermicroservice.configuration.security.userDetails.CustomUserDetailsService;
@@ -21,12 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class MainSecurity {
-
+public class WebSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final CustomUserDetailsService userDetailsService;
-    private final JwtEntryPoint unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -41,17 +41,21 @@ public class MainSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests(requests -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/users/v1/auth/login").permitAll()
                         .requestMatchers("/users/v1/auth/client").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/users/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users/v1/owner/**").hasRole("OWNER")
-                        .anyRequest()
-                        .authenticated()
-                );
+                        .anyRequest().authenticated()
+                )
+                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+
+
+
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(jwtUtils, userDetailsService),
@@ -69,4 +73,5 @@ public class MainSecurity {
 
         return authProvider;
     }
+
 }

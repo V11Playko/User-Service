@@ -1,64 +1,52 @@
 package com.pragma.powerup.usermicroservice.configuration.security.jwt;
 
-
-import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.adapter.UserDetailsServiceImpl;
+import com.pragma.powerup.usermicroservice.configuration.security.userDetails.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.AntPathMatcher;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
+@RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    @Autowired
-    JwtProvider jwtProvider;
-
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
-    private List<String> excludedPrefixes = Arrays.asList("/auth/**", "/swagger-ui/**", "/actuator/**", "/user/");
-    private AntPathMatcher pathMatcher = new AntPathMatcher();
+    private final JwtUtils jwtUtils;
+    private final CustomUserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain)
-            throws ServletException, IOException {
-        String token = getToken(req);
-        if (token != null && jwtProvider.validateToken(token)) {
-            String nombreUsuario = jwtProvider.getNombreUsuarioFromToken(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(nombreUsuario);
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
-                    userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        String jwt = parseJwt(request);
+        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(req, res);
+        filterChain.doFilter(request, response);
     }
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String currentRoute = request.getServletPath();
-        for (String prefix : excludedPrefixes) {
-            if (pathMatcher.matchStart(prefix, currentRoute)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
 
-    private String getToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7); // return everything after "Bearer "
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
         }
+
         return null;
     }
+
 }
