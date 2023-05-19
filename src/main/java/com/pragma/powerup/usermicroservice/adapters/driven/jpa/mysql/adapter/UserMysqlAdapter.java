@@ -34,17 +34,14 @@ import static com.pragma.powerup.usermicroservice.configuration.Constants.PROVID
 public class UserMysqlAdapter implements IUserPersistencePort {
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
-    private final PasswordEncoder passwordEncoder;
     @Override
     public void saveUser(User user) {
         if (userRepository.findByDniNumber(user.getDniNumber()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
-        if (userRepository.existsByMail(user.getMail())){
+        if (userRepository.existsByEmail(user.getEmail())){
             throw new MailAlreadyExistsException();
         }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(userEntityMapper.toEntity(user));
     }
 
@@ -59,8 +56,8 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public Optional<User> getUserByMail(String mail) {
-        UserEntity user = userRepository.findByMail(mail).orElse(null);
+    public Optional<User> getUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email).orElse(null);
         return Optional.ofNullable(userEntityMapper.toUser(user));
     }
 

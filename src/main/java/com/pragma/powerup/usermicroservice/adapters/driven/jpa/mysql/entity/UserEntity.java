@@ -1,5 +1,6 @@
 package com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class UserEntity {
     private String dniNumber;
     private String phone;
     private LocalDate birthdate;
-    private String mail;
+    private String email;
     private String password;
     @ManyToOne
     @JoinColumn(name = "id_role")

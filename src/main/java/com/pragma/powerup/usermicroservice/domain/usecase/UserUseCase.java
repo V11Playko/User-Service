@@ -4,21 +4,24 @@ import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup.usermicroservice.domain.exceptions.UserNotFound;
 import com.pragma.powerup.usermicroservice.domain.model.User;
+import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.validations.UserValid;
 
 import java.util.List;
-import java.util.Optional;
 
 public class UserUseCase implements IUserServicePort {
+    private final IAuthPasswordEncoderPort authEncoderPort;
     private final IUserPersistencePort userPersistencePort;
 
-    public UserUseCase(IUserPersistencePort userPersistencePort) {
+    public UserUseCase(IAuthPasswordEncoderPort authEncoderPort, IUserPersistencePort userPersistencePort) {
+        this.authEncoderPort = authEncoderPort;
         this.userPersistencePort = userPersistencePort;
     }
 
     @Override
     public void saveUser(User user) {
+        user.setPassword(authEncoderPort.encodePassword(user.getPassword()));
         if (UserValid.isOlder(user)) {
             userPersistencePort.saveUser(user);
         } else {
@@ -32,8 +35,8 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public User getUserByMail(String mail) {
-        User user = userPersistencePort.getUserByMail(mail).orElse(null);
+    public User getUserByEmail(String email) {
+        User user = userPersistencePort.getUserByEmail(email).orElse(null);
         if (user == null) {
             throw new UserNotFound();
         }

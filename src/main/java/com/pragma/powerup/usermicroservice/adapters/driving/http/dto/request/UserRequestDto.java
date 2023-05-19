@@ -1,6 +1,7 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -22,11 +23,10 @@ public class UserRequestDto {
     @Pattern(regexp = "^\\+?57\\s(3[0-2]|7[0-1])\\d{8}$", message = "Field 'numberPhone' must be a valid number phone. Enter the format +57 3...")
     @NotBlank(message = "Field 'phoneNumber' it's required")
     private String phone;
-    @NotNull(message = "Field 'birthdate' it's required and the correct format is 'yyyy-mm-dd'")
     private LocalDate birthdate;
     @NotBlank(message = "Field 'email' it's required")
     @Email(message = "Field 'email' must be a valid email direction. Enter the format name@example.com")
-    private String mail;
+    private String email;
     @NotBlank(message = "Field 'password' it's required")
     private String password;
     @NotNull

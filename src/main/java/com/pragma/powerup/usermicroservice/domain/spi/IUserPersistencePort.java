@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IUserPersistencePort {
     void saveUser(User user);
     void deleteUser(User user);
-    Optional<User> getUserByMail(String mail);
+    Optional<User> getUserByEmail(String mail);
     List<User> getAllProviders(int page);
     User getProvider(Long id);
     User getOwner(Long id);

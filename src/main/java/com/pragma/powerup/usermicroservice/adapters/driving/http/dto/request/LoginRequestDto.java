@@ -1,15 +1,19 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 
-@AllArgsConstructor
-@Getter
+@Data
 public class LoginRequestDto {
-    @NotBlank
-    private String userDni;
-    @NotBlank
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Field 'email' must be a valid email direction. Enter the format name@example.com")
+    private String email;
+    @NotBlank(message = "Password cannot be null")
+    @Size(min = 4, max = 255, message = "Password must be between 1 and 150 characters")
     private String password;
 }

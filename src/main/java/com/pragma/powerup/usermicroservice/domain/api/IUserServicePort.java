@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface IUserServicePort {
     void saveUser(User user);
     void deleteUser(User user);
-    User getUserByMail(String mail);
+    User getUserByEmail(String mail);
     List<User> getAllProviders(int page);
     User getProvider(Long id);
     User getOwner(Long id);

@@ -13,6 +13,6 @@ public interface IUserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findAllByRoleEntityId(Long idRole, Pageable pageable);
     List<UserEntity> findAllById(Long idUser);
     Optional<UserEntity> findByDniNumber(String dniNumber);
-    Optional<UserEntity> findByMail(String mail);
-    boolean existsByMail(String mail);
+    Optional<UserEntity> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
