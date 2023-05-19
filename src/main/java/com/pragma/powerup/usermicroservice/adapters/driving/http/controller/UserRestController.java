@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users/v1/admin")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "jwt")
 public class UserRestController {
@@ -69,8 +69,8 @@ public class UserRestController {
                     @ApiResponse(responseCode = "404", description = "No data found",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @GetMapping("/")
-    public ResponseEntity<UserResponseDto> getUserByMail(@RequestParam("mail") String mail) {
-        return ResponseEntity.ok(userHandler.getUserByMail(mail));
+    public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(userHandler.getUserByEmail(email));
     }
 
     @Operation(summary = "Get all the providers",

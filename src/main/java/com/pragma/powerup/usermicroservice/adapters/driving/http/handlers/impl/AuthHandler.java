@@ -1,10 +1,8 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.LoginRequestDto;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.JwtResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.JwtTokenResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IAuthHandler;
-import com.pragma.powerup.usermicroservice.configuration.security.jwt.JwtProvider;
 import com.pragma.powerup.usermicroservice.configuration.security.jwt.JwtUtils;
 import com.pragma.powerup.usermicroservice.configuration.security.userDetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;

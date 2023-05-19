@@ -11,11 +11,13 @@ import com.pragma.powerup.usermicroservice.domain.exceptions.UserNotFound;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserHandlerImpl implements IUserHandler {
 
     private final IUserServicePort userServicePort;
@@ -33,10 +35,10 @@ public class UserHandlerImpl implements IUserHandler {
     }
 
     @Override
-    public UserResponseDto getUserByMail(String mail) {
+    public UserResponseDto getUserByEmail(String email) {
         User user;
         try {
-            user = userServicePort.getUserByMail(mail);
+            user = userServicePort.getUserByEmail(email);
         } catch (UserNotFound e) {
             throw new DataRequired();
         }
