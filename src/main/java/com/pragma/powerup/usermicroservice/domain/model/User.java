@@ -1,7 +1,5 @@
 package com.pragma.powerup.usermicroservice.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDate;
 
 public class User {
