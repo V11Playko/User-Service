@@ -1,27 +1,47 @@
 package com.pragma.powerup.usermicroservice.configuration.security.jwt;
 
 
+import com.pragma.powerup.usermicroservice.configuration.security.exception.JwtException;
 import com.pragma.powerup.usermicroservice.configuration.security.userDetails.CustomUserDetails;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtils {
-    private final String jwtSecret = "4qhq8LrEBfYcaRHxhdb9zURb2rf8e7UdSECRETaklsdIJi289JKLASD";
-    private final static Long jwtExpirationMinutes = 2_592_000L;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+    @Value("${jwt.expiration}")
+    private int jwtExpirationMinutes;
 
     public String generateJwtToken(Authentication authentication) {
 
         CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
+        List<String> role = userPrincipal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+
+
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
+                .claim("roles", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + ( jwtExpirationMinutes * 1000)))
-                .signWith(SignatureAlgorithm.HS256, jwtSecret.getBytes())
+                .setExpiration(new Date((new Date()).getTime() + ( jwtExpirationMinutes * 1000L)))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret.getBytes())
                 .compact();
     }
 

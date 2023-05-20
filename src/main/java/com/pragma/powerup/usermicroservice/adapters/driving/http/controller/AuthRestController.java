@@ -42,7 +42,7 @@ public class AuthRestController {
             @ApiResponse(responseCode = "200", description = "User found", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    @GetMapping("/user")
+    @GetMapping("/getUser")
     public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam("email") String email) {
         return new ResponseEntity<>(this.userHandler.getUserByEmail(email), HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.pragma.powerup.usermicroservice.configuration.security.userDetails;
 
+import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.RoleEntity;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.UserEntity;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -17,11 +20,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserEntity> userEntity = this.userRepository.findByEmail(email);
+        UserEntity user = this.userRepository.findByEmail(email);
+
+        List<UserEntity> userEntity = userRepository.findAllById(user.getId());
 
         if (userEntity.isEmpty()) {
             throw new UsernameNotFoundException("Invalid email or password");
         }
-        return CustomUserDetails.build(userEntity.get());
+
+        List<RoleEntity> roles = new ArrayList<>();
+
+        for (UserEntity usuario : userEntity) {
+            roles.add(user.getRoleEntity());
+        }
+        return CustomUserDetails.build(user, roles);
     }
 }

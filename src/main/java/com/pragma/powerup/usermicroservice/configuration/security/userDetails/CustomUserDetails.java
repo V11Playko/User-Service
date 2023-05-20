@@ -1,6 +1,7 @@
 package com.pragma.powerup.usermicroservice.configuration.security.userDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.RoleEntity;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,10 +20,9 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static CustomUserDetails build(UserEntity user) {
-        List<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(user.getRoleEntity().getName())
-        );
+    public static CustomUserDetails build(UserEntity user, List<RoleEntity> roles) {
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(rol -> new SimpleGrantedAuthority(rol.getName())).toList();
 
         return new CustomUserDetails(
                 user.getEmail(),

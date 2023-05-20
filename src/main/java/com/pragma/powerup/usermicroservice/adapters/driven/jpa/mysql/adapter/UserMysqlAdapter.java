@@ -57,7 +57,7 @@ public class UserMysqlAdapter implements IUserPersistencePort {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        UserEntity user = userRepository.findByEmail(email).orElse(null);
+        UserEntity user = userRepository.findByEmail(email);
         return Optional.ofNullable(userEntityMapper.toUser(user));
     }
 

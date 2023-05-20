@@ -101,7 +101,7 @@ public class ControllerAdvisor {
     public ResponseEntity<Map<String, String>> mustBeOfLegalAgeExceptionNotFound(
             IsOlder isHolder) {
         // Valorar y argumentar el status
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, IS_OLDER));
     }
     @ExceptionHandler(OwnerNotFoundException.class)

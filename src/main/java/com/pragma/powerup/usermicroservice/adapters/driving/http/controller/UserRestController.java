@@ -61,18 +61,6 @@ public class UserRestController {
         return ResponseEntity.ok(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_DELETED_MESSAGE));
     }
 
-    @Operation(summary = "Get user by mail",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "user by mail returned",
-                            content = @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = UserRequestDto.class)))),
-                    @ApiResponse(responseCode = "404", description = "No data found",
-                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @GetMapping("/")
-    public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam("email") String email) {
-        return ResponseEntity.ok(userHandler.getUserByEmail(email));
-    }
-
     @Operation(summary = "Get all the providers",
             responses = {
                     @ApiResponse(responseCode = "200", description = "All providers returned",
