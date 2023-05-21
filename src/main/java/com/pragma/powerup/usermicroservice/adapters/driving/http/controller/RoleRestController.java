@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +34,17 @@ public class RoleRestController {
     @GetMapping("")
     public ResponseEntity<List<RoleResponseDto>> getAllRoles() {
         return ResponseEntity.ok(roleHandler.getAllRoles());
+    }
+
+    @Operation(summary = "Get role",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "The role returned",
+                            content = @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = RoleResponseDto.class)))),
+                    @ApiResponse(responseCode = "404", description = "No data found",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @GetMapping("/{id}")
+    public ResponseEntity<RoleResponseDto> getRole(@PathVariable Long id) {
+        return ResponseEntity.ok(roleHandler.getRole(id));
     }
 }
