@@ -1,9 +1,11 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateOwnerRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserRequestMapper;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IUserResponseMapperImpl;
-import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.request.ICreateOwnerRequestMapper;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.request.IUserRequestMapper;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.response.IUserResponseMapperImpl;
+import com.pragma.powerup.usermicroservice.domain.api.IAdminServicePort;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,14 +16,14 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class UserHandlerImplTest {
+class AdminHandlerTest {
 
     @InjectMocks
-    UserHandlerImpl userHandler;
+    AdminHandler adminHandler;
     @Mock
-    IUserServicePort userServicePort;
+    IAdminServicePort adminServicePort;
+    @Mock
+    ICreateOwnerRequestMapper createOwnerRequestMapper;
     @Mock
     IUserRequestMapper userRequestMapper;
     @Mock
@@ -33,14 +35,14 @@ class UserHandlerImplTest {
     }
 
     @Test
-    void saveUser() {
+    void saveOwner() {
         User user = HttpData.obtainUser();
-        UserRequestDto userRequest = HttpData.obtainUserRequest();
+        CreateOwnerRequestDto userRequest = HttpData.obtainOwnerRequest();
 
-        when(userRequestMapper.toUser(userRequest)).thenReturn(user);
-        userHandler.saveUser(userRequest);
+        when(createOwnerRequestMapper.toUser(userRequest)).thenReturn(user);
+        adminHandler.saveOwner(userRequest);
 
-        verify(userServicePort).saveUser(user);
+        verify(adminServicePort).saveOwner(user);
     }
 
     @Test
@@ -49,8 +51,8 @@ class UserHandlerImplTest {
         UserRequestDto userRequest = HttpData.obtainUserRequest();
 
         when(userRequestMapper.toUser(userRequest)).thenReturn(user);
-        userHandler.deleteUser(userRequest);
+        adminHandler.deleteUser(userRequest);
 
-        verify(userServicePort).deleteUser(user);
+        verify(adminServicePort).deleteUser(user);
     }
 }

@@ -15,13 +15,13 @@ public class DomainData {
                 "Jese",
                 "6454654",
                 "+57 3134647582",
-                LocalDate.of(2000, 02, 24),
+                LocalDate.of(2000, 10, 24),
                 "jese@gmail.com",
                 "Jese",
                 new Role(
-                        1L,
-                        "ADMIN",
-                        "ADMIN"
+                        2L,
+                        "ROLE_OWNER",
+                        "ROLE_OWNER"
                 )
         );
     }
@@ -36,9 +36,9 @@ public class DomainData {
                 "jese@gmail.com",
                 "Jese",
                 new Role(
-                        1L,
-                        "ADMIN",
-                        "ADMIN"
+                        2L,
+                        "ROLE_OWNER",
+                        "ROLE_OWNER"
                 )
         );
     }
