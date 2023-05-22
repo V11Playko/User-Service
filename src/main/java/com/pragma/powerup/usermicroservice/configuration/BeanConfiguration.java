@@ -8,6 +8,7 @@ import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositorie
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
 import com.pragma.powerup.usermicroservice.domain.api.IRoleServicePort;
 import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
+import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.usecase.RoleUseCase;
@@ -15,6 +16,7 @@ import com.pragma.powerup.usermicroservice.domain.usecase.UserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -24,22 +26,31 @@ public class BeanConfiguration {
     private final IUserRepository userRepository;
     private final IRoleEntityMapper roleEntityMapper;
     private final IUserEntityMapper userEntityMapper;
-    private final PasswordEncoder passwordEncoder;
+    @Bean
+    public IAuthPasswordEncoderPort authPasswordEncoderPort() {
+        return new AuthBcryptAdapter(encoder());
+    }
+
     @Bean
     public IRoleServicePort roleServicePort() {
-        return new RoleUseCase(rolePersistencePort());
+        return new RoleUseCase(this.rolePersistencePort());
     }
     @Bean
     public IRolePersistencePort rolePersistencePort() {
-        return new RoleMysqlAdapter(roleRepository, roleEntityMapper);
+        return new RoleMysqlAdapter(this.roleRepository, this.roleEntityMapper);
     }
 
     @Bean
     public IUserServicePort userServicePort() {
-        return new UserUseCase(userPersistencePort());
+        return new UserUseCase(this.authPasswordEncoderPort(), this.userPersistencePort());
     }
     @Bean
     public IUserPersistencePort userPersistencePort() {
-        return new UserMysqlAdapter(userRepository, userEntityMapper, passwordEncoder);
+        return new UserMysqlAdapter(this.userRepository, this.userEntityMapper);
+    }
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 }

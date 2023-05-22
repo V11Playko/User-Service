@@ -17,10 +17,10 @@ import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.pragma.powerup.usermicroservice.configuration.Constants.CLIENT_ROLE_ID;
 import static com.pragma.powerup.usermicroservice.configuration.Constants.EMPLOYEE_ROLE_ID;
@@ -33,17 +33,14 @@ import static com.pragma.powerup.usermicroservice.configuration.Constants.PROVID
 public class UserMysqlAdapter implements IUserPersistencePort {
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
-    private final PasswordEncoder passwordEncoder;
     @Override
     public void saveUser(User user) {
         if (userRepository.findByDniNumber(user.getDniNumber()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
-        if (userRepository.existsByMail(user.getMail())){
+        if (userRepository.existsByEmail(user.getEmail())){
             throw new MailAlreadyExistsException();
         }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(userEntityMapper.toEntity(user));
     }
 
@@ -55,6 +52,12 @@ public class UserMysqlAdapter implements IUserPersistencePort {
         else {
             throw new UserNotFoundException();
         }
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email);
+        return Optional.ofNullable(userEntityMapper.toUser(user));
     }
 
     @Override

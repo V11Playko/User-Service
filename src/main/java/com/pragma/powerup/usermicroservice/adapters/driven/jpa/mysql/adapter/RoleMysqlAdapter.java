@@ -9,7 +9,6 @@ import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class RoleMysqlAdapter implements IRolePersistencePort {

@@ -9,18 +9,18 @@ public class User {
     private String dniNumber;
     private String phone;
     private LocalDate birthdate;
-    private String mail;
+    private String email;
     private String password;
     private Role role;
 
-    public User(Long id, String name, String surname, String dniNumber, String phone, LocalDate birthdate, String mail, String password, Role role) {
+    public User(Long id, String name, String surname, String dniNumber, String phone, LocalDate birthdate, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.dniNumber = dniNumber;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -73,12 +73,12 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

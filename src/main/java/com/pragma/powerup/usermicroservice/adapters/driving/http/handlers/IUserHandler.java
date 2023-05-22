@@ -8,6 +8,7 @@ import java.util.List;
 public interface IUserHandler {
     void saveUser(UserRequestDto userRequestDto);
     void deleteUser(UserRequestDto userRequestDto);
+    UserResponseDto getUserByEmail(String email);
     List<UserResponseDto> getProvider(Integer page);
     UserResponseDto getProvider(Long id);
     UserResponseDto getOwner(Long id);

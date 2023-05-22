@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users/v1/admin")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "jwt")
 public class UserRestController {
@@ -60,6 +60,7 @@ public class UserRestController {
         userHandler.deleteUser(userRequestDto);
         return ResponseEntity.ok(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_DELETED_MESSAGE));
     }
+
     @Operation(summary = "Get all the providers",
             responses = {
                     @ApiResponse(responseCode = "200", description = "All providers returned",

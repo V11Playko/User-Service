@@ -24,7 +24,7 @@ public class UserEntity {
     private String dniNumber;
     private String phone;
     private LocalDate birthdate;
-    private String mail;
+    private String email;
     private String password;
     @ManyToOne
     @JoinColumn(name = "id_role")
