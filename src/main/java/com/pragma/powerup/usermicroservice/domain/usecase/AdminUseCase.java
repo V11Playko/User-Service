@@ -1,26 +1,34 @@
 package com.pragma.powerup.usermicroservice.domain.usecase;
 
+import com.pragma.powerup.usermicroservice.configuration.Constants;
+import com.pragma.powerup.usermicroservice.domain.api.IAdminServicePort;
 import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
-import com.pragma.powerup.usermicroservice.domain.api.IUserServicePort;
 import com.pragma.powerup.usermicroservice.domain.exceptions.UserNotFound;
+import com.pragma.powerup.usermicroservice.domain.model.Role;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
+import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.validations.UserValid;
 
 import java.util.List;
 
-public class UserUseCase implements IUserServicePort {
+public class AdminUseCase implements IAdminServicePort {
     private final IAuthPasswordEncoderPort authEncoderPort;
     private final IUserPersistencePort userPersistencePort;
+    private final IRolePersistencePort rolePersistencePort;
 
-    public UserUseCase(IAuthPasswordEncoderPort authEncoderPort, IUserPersistencePort userPersistencePort) {
+    public AdminUseCase(IAuthPasswordEncoderPort authEncoderPort, IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort) {
         this.authEncoderPort = authEncoderPort;
         this.userPersistencePort = userPersistencePort;
+        this.rolePersistencePort = rolePersistencePort;
     }
 
     @Override
-    public void saveUser(User user) {
+    public void saveOwner(User user) {
+        Role role = this.rolePersistencePort.getRole(Constants.OWNER_ROLE_ID);
+
+        user.setRole(role);
         user.setPassword(authEncoderPort.encodePassword(user.getPassword()));
         if (UserValid.isOlder(user)) {
             userPersistencePort.saveUser(user);
