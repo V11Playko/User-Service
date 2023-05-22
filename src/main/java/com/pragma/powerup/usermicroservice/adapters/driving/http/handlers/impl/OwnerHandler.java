@@ -3,7 +3,6 @@ package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateEmployeeRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IOwnerHandler;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.request.ICreateEmployeeRequestMapper;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.request.ICreateOwnerRequestMapper;
 import com.pragma.powerup.usermicroservice.domain.api.IOwnerServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -42,10 +42,6 @@ public class BeanConfiguration {
     public IAdminServicePort adminServicePort(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort) {
         return new AdminUseCase(authPasswordEncoderPort(), userPersistencePort, rolePersistencePort);
     }
-//    @Bean
-//    public IUserServicePort userServicePort(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort) {
-//        return new UserUseCase(authPasswordEncoderPort(), userPersistencePort, rolePersistencePort);
-//    }
 
     @Bean
     public IRoleServicePort roleServicePort(IRolePersistencePort rolePersistencePort) {

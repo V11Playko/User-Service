@@ -1,7 +1,6 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor
