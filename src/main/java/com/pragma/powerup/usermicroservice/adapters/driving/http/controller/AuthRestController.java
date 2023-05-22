@@ -3,8 +3,8 @@ package com.pragma.powerup.usermicroservice.adapters.driving.http.controller;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.LoginRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.JwtTokenResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IAdminHandler;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IAuthHandler;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users/v1/auth")
 @RequiredArgsConstructor
 public class AuthRestController {
-    private final IUserHandler userHandler;
+    private final IAdminHandler adminHandler;
     private final IAuthHandler authHandler;
 
     @Operation(summary = "Login into the system")
@@ -44,7 +44,7 @@ public class AuthRestController {
     })
     @GetMapping("/getUser")
     public ResponseEntity<UserResponseDto> getUserByEmail(@RequestParam("email") String email) {
-        return new ResponseEntity<>(this.userHandler.getUserByEmail(email), HttpStatus.OK);
+        return new ResponseEntity<>(this.adminHandler.getUserByEmail(email), HttpStatus.OK);
     }
 
 }
