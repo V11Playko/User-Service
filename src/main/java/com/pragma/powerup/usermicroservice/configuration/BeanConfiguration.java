@@ -7,12 +7,14 @@ import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.mappers.IUs
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IRoleRepository;
 import com.pragma.powerup.usermicroservice.adapters.driven.jpa.mysql.repositories.IUserRepository;
 import com.pragma.powerup.usermicroservice.domain.api.IAdminServicePort;
+import com.pragma.powerup.usermicroservice.domain.api.IClientServicePort;
 import com.pragma.powerup.usermicroservice.domain.api.IOwnerServicePort;
 import com.pragma.powerup.usermicroservice.domain.api.IRoleServicePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.usecase.AdminUseCase;
+import com.pragma.powerup.usermicroservice.domain.usecase.ClientUseCase;
 import com.pragma.powerup.usermicroservice.domain.usecase.OwnerUseCase;
 import com.pragma.powerup.usermicroservice.domain.usecase.RoleUseCase;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +53,11 @@ public class BeanConfiguration {
     @Bean
     public IOwnerServicePort ownerServicePort(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort) {
         return new OwnerUseCase(this.authPasswordEncoderPort(), userPersistencePort, rolePersistencePort);
+    }
+
+    @Bean
+    public IClientServicePort clientServicePort(IUserPersistencePort userPersistencePort, IRolePersistencePort rolePersistencePort) {
+        return new ClientUseCase(this.authPasswordEncoderPort(), userPersistencePort, rolePersistencePort);
     }
 
     @Bean
