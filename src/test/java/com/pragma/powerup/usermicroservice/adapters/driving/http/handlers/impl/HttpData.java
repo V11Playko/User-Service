@@ -1,5 +1,6 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateClientRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateEmployeeRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateOwnerRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
@@ -62,6 +63,17 @@ public class HttpData {
                 "+57 3134647582",
                 "jese@gmail.com",
                 "Jese"
+        );
+    }
+
+    public static CreateClientRequestDto obtainClientRequest() {
+        return new CreateClientRequestDto(
+                "Maria",
+                "Gomez",
+                "23135315465",
+                "+57 3134536929",
+                "maria.gomez@gmail.com",
+                "Gomez"
         );
     }
 
