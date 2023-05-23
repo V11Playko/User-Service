@@ -4,8 +4,8 @@ import com.pragma.powerup.usermicroservice.domain.model.User;
 
 import java.util.List;
 
-public interface IUserServicePort {
-    void saveUser(User user);
+public interface IAdminServicePort {
+    void saveOwner(User user);
     void deleteUser(User user);
     User getUserByEmail(String mail);
     List<User> getAllProviders(int page);

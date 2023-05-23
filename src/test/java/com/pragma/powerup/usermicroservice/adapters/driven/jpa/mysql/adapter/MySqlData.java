@@ -36,10 +36,9 @@ public class MySqlData {
         user.setSurname("Gaja");
         user.setBirthdate(LocalDate.of(2000, 02, 24));
         user.setPhone("+57 3134456252");
-        user.setMail("gaja@gmail.com");
+        user.setEmail("gaja@gmail.com");
         user.setPassword("gaja");
         user.setDniNumber("123456");
-        user.setRoleEntity(new RoleEntity(1L,"ADMIN","ADMIN"));
 
         return user;
     }

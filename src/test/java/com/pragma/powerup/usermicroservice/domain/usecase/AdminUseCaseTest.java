@@ -2,6 +2,8 @@ package com.pragma.powerup.usermicroservice.domain.usecase;
 
 import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
 import com.pragma.powerup.usermicroservice.domain.model.User;
+import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
+import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.usermicroservice.domain.validations.UserValid;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,21 +12,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+class AdminUseCaseTest {
 
-class UserUseCaseTest {
     @Mock
     private IUserPersistencePort userPersistencePort;
 
     @Mock
+    private IRolePersistencePort rolePersistencePort;
+    @Mock
+    IAuthPasswordEncoderPort authServicePort;
+    @Mock
     private UserValid userValid;
 
     @InjectMocks
-    private UserUseCase userUseCase;
+    private AdminUseCase adminUseCase;
 
     @BeforeEach
     void setUp() {
@@ -35,8 +41,10 @@ class UserUseCaseTest {
     void saveUserAdult() {
         User user = DomainData.obtainUserValid();
 
-        assertEquals("ADMIN", user.getRole().getName());
-        assertDoesNotThrow(() ->userUseCase.saveUser(user));
+        assertEquals("ROLE_OWNER", user.getRole().getName());
+
+        adminUseCase.saveOwner(user);
+        verify(userPersistencePort).saveUser(any(User.class));
     }
 
     @Test
@@ -46,14 +54,14 @@ class UserUseCaseTest {
         userValid.isOlder(user);
 
         assertThrows(IsOlder.class, () -> {
-            userUseCase.saveUser(user);
+            adminUseCase.saveOwner(user);
         });
     }
 
     @Test
     void deleteUser() {
         User user = DomainData.obtainUserValid();
-        userUseCase.deleteUser(user);
+        adminUseCase.deleteUser(user);
 
         verify(userPersistencePort).deleteUser(user);
     }

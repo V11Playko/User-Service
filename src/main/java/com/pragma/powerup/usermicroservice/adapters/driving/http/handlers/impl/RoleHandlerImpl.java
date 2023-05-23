@@ -2,7 +2,7 @@ package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.RoleResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IRoleHandler;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IRoleResponseMapper;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.response.IRoleResponseMapper;
 import com.pragma.powerup.usermicroservice.domain.api.IRoleServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

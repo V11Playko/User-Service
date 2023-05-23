@@ -1,8 +1,10 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.controller;
 
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateEmployeeRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
-import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IUserHandler;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IAdminHandler;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IOwnerHandler;
 import com.pragma.powerup.usermicroservice.configuration.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,20 +30,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 @SecurityRequirement(name = "jwt")
 public class OwnerRestController {
+    private final IOwnerHandler ownerHandler;
+    private final IAdminHandler adminHandler;
 
-    private final IUserHandler userHandler;
-
-    @Operation(summary = "Add a new user",
+    @Operation(summary = "Add a new employee",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "User created",
+                    @ApiResponse(responseCode = "201", description = "Employee created",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
-                    @ApiResponse(responseCode = "409", description = "User already exists",
+                    @ApiResponse(responseCode = "409", description = "Employee already exists",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error"))),
                     @ApiResponse(responseCode = "403", description = "Role not allowed for user creation",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @PostMapping("")
-    public ResponseEntity<Map<String, String>> saveUserOwner(@Valid @RequestBody UserRequestDto userRequestDto) {
-        userHandler.saveUser(userRequestDto);
+    @PostMapping("/create-employee")
+    public ResponseEntity<Map<String, String>> saveEmployee(@Valid @RequestBody CreateEmployeeRequestDto createEmployeeRequestDto) {
+        ownerHandler.saveEmployee(createEmployeeRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }
@@ -54,6 +56,6 @@ public class OwnerRestController {
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getOwner(@PathVariable Long id) {
-        return ResponseEntity.ok(userHandler.getOwner(id));
+        return ResponseEntity.ok(adminHandler.getOwner(id));
     }
 }

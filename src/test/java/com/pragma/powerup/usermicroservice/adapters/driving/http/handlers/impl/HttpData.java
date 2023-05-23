@@ -1,5 +1,7 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateEmployeeRequestDto;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.CreateOwnerRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
 import com.pragma.powerup.usermicroservice.domain.model.Role;
 import com.pragma.powerup.usermicroservice.domain.model.User;
@@ -38,6 +40,28 @@ public class HttpData {
                 "jese@gmail.com",
                 "Jese",
                 1L
+        );
+    }
+    public static CreateOwnerRequestDto obtainOwnerRequest(){
+        return new CreateOwnerRequestDto(
+                "Halbert",
+                "Jese",
+                "6454654",
+                "+57 3134647582",
+                LocalDate.of(2000, 02, 24),
+                "jese@gmail.com",
+                "Jese"
+        );
+    }
+
+    public static CreateEmployeeRequestDto obtainEmployeeRequest() {
+        return new CreateEmployeeRequestDto(
+                "Halbert",
+                "Jese",
+                "6454654",
+                "+57 3134647582",
+                "jese@gmail.com",
+                "Jese"
         );
     }
 

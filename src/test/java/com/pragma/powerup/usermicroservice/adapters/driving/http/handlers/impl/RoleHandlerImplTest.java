@@ -1,6 +1,6 @@
 package com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.impl;
 
-import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.IRoleResponseMapper;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.mapper.response.IRoleResponseMapper;
 import com.pragma.powerup.usermicroservice.domain.api.IRoleServicePort;
 import com.pragma.powerup.usermicroservice.domain.model.Role;
 import org.junit.jupiter.api.BeforeEach;
