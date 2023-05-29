@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/users/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users/v1/owner/**").hasRole("OWNER")
+                        .requestMatchers("/users/v1/client/**").hasRole("CLIENT")
                         .anyRequest().authenticated()
                 )
                 .formLogin().disable()
