@@ -105,14 +105,4 @@ public class AdminRestController {
     public ResponseEntity<UserResponseDto> getEmployee(@PathVariable Long id) {
         return ResponseEntity.ok(adminHandler.getEmployee(id));
     }
-    @Operation(summary = "Get a client user",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Client user returned",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class))),
-                    @ApiResponse(responseCode = "404", description = "User not found with client role",
-                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @GetMapping("/client/{id}")
-    public ResponseEntity<UserResponseDto> getClient(@PathVariable Long id) {
-        return ResponseEntity.ok(adminHandler.getClient(id));
-    }
 }
