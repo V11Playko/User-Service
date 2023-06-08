@@ -12,5 +12,4 @@ public interface IAdminServicePort {
     User getProvider(Long id);
     User getOwner(Long id);
     User getEmployee(Long id);
-    User getClient(Long id);
 }

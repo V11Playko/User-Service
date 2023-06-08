@@ -28,4 +28,9 @@ public class ClientUseCase implements IClientServicePort {
 
         userPersistencePort.saveUser(user);
     }
+
+    @Override
+    public User getClient(Long id) {
+        return userPersistencePort.getClient(id);
+    }
 }
