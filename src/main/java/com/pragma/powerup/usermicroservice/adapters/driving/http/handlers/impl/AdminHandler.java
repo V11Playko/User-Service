@@ -68,9 +68,5 @@ public class AdminHandler implements IAdminHandler {
         return userResponseMapper.toResponse(adminServicePort.getEmployee(id));
     }
 
-    @Override
-    public UserResponseDto getClient(Long id) {
-        return userResponseMapper.toResponse(adminServicePort.getClient(id));
-    }
 }
 

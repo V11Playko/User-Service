@@ -14,5 +14,4 @@ public interface IAdminHandler {
     UserResponseDto getProvider(Long id);
     UserResponseDto getOwner(Long id);
     UserResponseDto getEmployee(Long id);
-    UserResponseDto getClient(Long id);
 }

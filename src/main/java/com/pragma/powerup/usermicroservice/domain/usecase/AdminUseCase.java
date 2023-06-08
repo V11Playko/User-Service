@@ -70,9 +70,4 @@ public class AdminUseCase implements IAdminServicePort {
     public User getEmployee(Long id) {
         return userPersistencePort.getEmployee(id);
     }
-
-    @Override
-    public User getClient(Long id) {
-        return userPersistencePort.getClient(id);
-    }
 }
