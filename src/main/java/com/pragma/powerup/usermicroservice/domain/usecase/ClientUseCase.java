@@ -2,11 +2,13 @@ package com.pragma.powerup.usermicroservice.domain.usecase;
 
 import com.pragma.powerup.usermicroservice.configuration.Constants;
 import com.pragma.powerup.usermicroservice.domain.api.IClientServicePort;
+import com.pragma.powerup.usermicroservice.domain.exceptions.IsOlder;
 import com.pragma.powerup.usermicroservice.domain.model.Role;
 import com.pragma.powerup.usermicroservice.domain.model.User;
 import com.pragma.powerup.usermicroservice.domain.spi.IAuthPasswordEncoderPort;
 import com.pragma.powerup.usermicroservice.domain.spi.IRolePersistencePort;
 import com.pragma.powerup.usermicroservice.domain.spi.IUserPersistencePort;
+import com.pragma.powerup.usermicroservice.domain.validations.UserValid;
 
 public class ClientUseCase implements IClientServicePort {
     private final IAuthPasswordEncoderPort authEncoderPort;
@@ -19,14 +21,24 @@ public class ClientUseCase implements IClientServicePort {
         this.rolePersistencePort = rolePersistencePort;
     }
 
+    /**
+     * Create client
+     *
+     * @param user
+     * @throws IsOlder - Check if the user is of legal age
+     */
+
     @Override
     public void saveClient(User user) {
         Role role = rolePersistencePort.getRole(Constants.CLIENT_ROLE_ID);
 
         user.setRole(role);
         user.setPassword(authEncoderPort.encodePassword(user.getPassword()));
-
-        userPersistencePort.saveUser(user);
+        if (UserValid.isOlder(user)) {
+            userPersistencePort.saveUser(user);
+        } else {
+            throw new IsOlder();
+        }
     }
 
     @Override
