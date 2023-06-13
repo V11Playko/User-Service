@@ -18,6 +18,12 @@ public class ClientHandler implements IClientHandler {
     private final IClientServicePort clientServicePort;
     private final ICreateClientRequestMapper createClientRequestMapper;
     private final IUserResponseMapper userResponseMapper;
+
+    /**
+     * Create client
+     *
+     * @param createClientRequestDto - client information
+     * */
     @Override
     public void saveClient(CreateClientRequestDto createClientRequestDto) {
         clientServicePort.saveClient(createClientRequestMapper.toUser(createClientRequestDto));

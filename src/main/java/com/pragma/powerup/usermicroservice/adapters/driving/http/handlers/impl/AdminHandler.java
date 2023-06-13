@@ -27,6 +27,12 @@ public class AdminHandler implements IAdminHandler {
     private final ICreateOwnerRequestMapper createOwnerRequestMapper;
     private final IUserResponseMapper userResponseMapper;
 
+    /**
+     * Creates restaurant owner
+     *
+     * @param createOwnerRequestDto - restaurant owner information
+     * */
+
     @Override
     public void saveOwner(CreateOwnerRequestDto createOwnerRequestDto) {
         adminServicePort.saveOwner(createOwnerRequestMapper.toUser(createOwnerRequestDto));

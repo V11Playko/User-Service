@@ -14,6 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class OwnerHandler implements IOwnerHandler {
     private final IOwnerServicePort ownerServicePort;
     private final ICreateEmployeeRequestMapper createEmployeeRequestMapper;
+
+    /**
+     * Creates restaurant employee
+     *
+     * @param createEmployeeRequestDto - employee information
+     * */
     @Override
     public void saveEmployee(CreateEmployeeRequestDto createEmployeeRequestDto) {
         ownerServicePort.saveEmployee(createEmployeeRequestMapper.toUser(createEmployeeRequestDto));

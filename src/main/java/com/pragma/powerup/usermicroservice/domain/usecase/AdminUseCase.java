@@ -24,6 +24,12 @@ public class AdminUseCase implements IAdminServicePort {
         this.rolePersistencePort = rolePersistencePort;
     }
 
+    /**
+     * Create restaurant owner
+     *
+     * @param user
+     * @throws IsOlder - Check if the user is of legal age
+     */
     @Override
     public void saveOwner(User user) {
         Role role = this.rolePersistencePort.getRole(Constants.OWNER_ROLE_ID);

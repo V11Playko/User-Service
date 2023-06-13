@@ -33,6 +33,14 @@ import static com.pragma.powerup.usermicroservice.configuration.Constants.PROVID
 public class UserMysqlAdapter implements IUserPersistencePort {
     private final IUserRepository userRepository;
     private final IUserEntityMapper userEntityMapper;
+
+    /**
+     * Saves a user in the user's table on the database
+     *
+     * @param user - data of the user
+     * @throws UserAlreadyExistsException - A user already exists with the provider role
+     * @throws MailAlreadyExistsException - The email already exists
+     * */
     @Override
     public void saveUser(User user) {
         if (userRepository.findByDniNumber(user.getDniNumber()).isPresent()) {
