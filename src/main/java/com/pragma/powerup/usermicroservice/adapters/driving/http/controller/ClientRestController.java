@@ -47,14 +47,4 @@ public class ClientRestController {
                 .body(Collections.singletonMap(Constants.RESPONSE_MESSAGE_KEY, Constants.USER_CREATED_MESSAGE));
     }
 
-    @Operation(summary = "Get a client user",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Client user returned",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class))),
-                    @ApiResponse(responseCode = "404", description = "User not found with client role",
-                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getClient(@PathVariable Long id) {
-        return ResponseEntity.ok(clientHandler.getClient(id));
-    }
 }
