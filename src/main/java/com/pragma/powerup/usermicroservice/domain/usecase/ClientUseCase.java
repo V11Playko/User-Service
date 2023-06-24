@@ -34,11 +34,8 @@ public class ClientUseCase implements IClientServicePort {
 
         user.setRole(role);
         user.setPassword(authEncoderPort.encodePassword(user.getPassword()));
-        if (UserValid.isOlder(user)) {
-            userPersistencePort.saveUser(user);
-        } else {
-            throw new IsOlder();
-        }
+
+        userPersistencePort.saveUser(user);
     }
 
     @Override
