@@ -4,6 +4,7 @@ import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.Cre
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.request.UserRequestDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.dto.response.UserResponseDto;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IAdminHandler;
+import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IClientHandler;
 import com.pragma.powerup.usermicroservice.adapters.driving.http.handlers.IOwnerHandler;
 import com.pragma.powerup.usermicroservice.configuration.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class OwnerRestController {
     private final IOwnerHandler ownerHandler;
     private final IAdminHandler adminHandler;
+    private final IClientHandler clientHandler;
 
     @Operation(summary = "Add a new employee",
             responses = {
@@ -57,5 +59,16 @@ public class OwnerRestController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getOwner(@PathVariable Long id) {
         return ResponseEntity.ok(adminHandler.getOwner(id));
+    }
+
+    @Operation(summary = "Get a client user",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Client user returned",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDto.class))),
+                    @ApiResponse(responseCode = "404", description = "User not found with client role",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @GetMapping("/client/{id}")
+    public ResponseEntity<UserResponseDto> getClient(@PathVariable Long id) {
+        return ResponseEntity.ok(clientHandler.getClient(id));
     }
 }
